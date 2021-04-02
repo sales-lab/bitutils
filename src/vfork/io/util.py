@@ -50,7 +50,7 @@ def parse_int(s, name, check=None):
 	    @return: the parsed value.
 	'''
 	if check not in (None, 'positive', 'strict_positive'):
-		raise ValueError, 'invalid check'
+		raise ValueError('invalid check')
 
 	try:
 		v = int(s)
@@ -75,7 +75,7 @@ def parse_float(s, name, check=None):
 	    @return: the parsed value.
 	'''
 	if check not in (None, 'positive', 'strict_positive'):
-		raise ValueError, 'invalid check'
+		raise ValueError('invalid check')
 
 	try:
 		v = float(s)
