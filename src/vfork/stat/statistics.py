@@ -63,14 +63,14 @@ class PvalueHisto(object):
 			else:
 				return float(self.cumulative[x])/self.n_run
 		except IndexError:
-			print v, x
+			print(v, x)
 			raise NameError("self.cumulate is not defined. Call cumulate() methods before to call get_smaller()")
 	
 	def print_cumulative(self):
 		#print self.max,  self.min + self.bin_size * self.n_bin
-		print pow(10, self.max)
+		print(pow(10, self.max))
 		for x,v in enumerate(self.cumulative):
-			print '%g\t%g' % (pow(10, self.min + self.bin_size * (x) ), v) # the printied histogram has left labelled bins
+			print('%g\t%g' % (pow(10, self.min + self.bin_size * (x) ), v)) # the printied histogram has left labelled bins
 
 
 class PvalueHistoFromFile(PvalueHisto):
