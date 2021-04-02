@@ -110,9 +110,9 @@ if __name__ == '__main__':
 	tdc = TableDefinitionConverter()
 	tableName, tableDef, indexes = tdc.parse(sys.stdin, 'DATABASE')
 
-	print '=== %s ===' % tableName
-	print tableDef.replace(', ', ',\n')
-	print
-	print '=== INDEXES ==='
+	print('=== %s ===' % tableName)
+	print(tableDef.replace(', ', ',\n'))
+	print()
+	print('=== INDEXES ===')
 	for index in indexes:
-		print index
+		print(index)
