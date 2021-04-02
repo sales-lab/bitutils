@@ -11,24 +11,24 @@ class SubstitutionMatrix(object):
 		rows = [ r.split(None) for r in self._load_rows(filename) ]
 		
 		if len(rows[0]) != 4:
-			raise ValueError, 'invalid column header'
+			raise ValueError('invalid column header')
 		for label in rows[0]:
 			if label not in 'ACGT':
-				raise ValueError, 'invalid column labels'
+				raise ValueError('invalid column labels')
 		
 		matrix = {}
 		for row in rows[1:]:
 			if len(row) < 5:
-				raise ValueError, 'too few columns'
+				raise ValueError('too few columns')
 			elif len(row) > 5:
-				raise ValueError, 'too many columns'
+				raise ValueError('too many columns')
 			
 			row_label = row[0]
 			for column_label, score in zip(rows[0], row[1:]):
 				try:
 					matrix[row_label, column_label] = int(score)
 				except ValueError:
-					raise ValueError, 'invalid score'
+					raise ValueError('invalid score')
 		
 		return matrix
 	
@@ -38,7 +38,7 @@ class SubstitutionMatrix(object):
 			while len(rows) < 5:
 				line = fd.readline()
 				if len(line) == 0:
-					raise ValueError, 'too few rows'
+					raise ValueError('too few rows')
 				elif line[0] == '#':
 					continue
 				else:
@@ -51,7 +51,7 @@ class SubstitutionMatrix(object):
 				elif line[0] == '#':
 					continue
 				else:
-					raise ValueError, 'too many rows'
+					raise ValueError('too many rows')
 		
 		return rows
 	

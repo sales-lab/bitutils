@@ -54,7 +54,7 @@ class Alignment(object):
 		    @raises ValueError: if *args contains too many values.
 		'''
 		if len(args) > len(self.__slots__):
-			raise ValueError, 'too many positional arguments'
+			raise ValueError('too many positional arguments')
 		
 		for attr, value in zip(self.__slots__, args):
 			setattr(self, attr, value)
@@ -101,7 +101,7 @@ class AlignedSequences(object):
 		'''
 		if alignment.query_stop - alignment.query_start + self._cumulative_gap_size(alignment.query_gaps) != \
 		   alignment.target_stop - alignment.target_start + self._cumulative_gap_size(alignment.target_gaps):
-			raise ValueError, 'mismatch between aligned query and target lengths'
+			raise ValueError('mismatch between aligned query and target lengths')
 		
 		self.alignment = alignment
 		self.query_sequence = query[alignment.query_start:alignment.query_stop]
@@ -121,7 +121,7 @@ class AlignedSequences(object):
 		    @return: a string.
 		'''
 		if format != 'text':
-			raise ValueError, 'unsupported format'
+			raise ValueError('unsupported format')
 		
 		print >>fd, 'QUERY:  %s, %d-%d' % (self.alignment.query_label, self.alignment.query_start, self.alignment.query_stop)
 		print >>fd, 'TARGET: %s, %d-%d' % (self.alignment.target_label, self.alignment.target_start, self.alignment.target_stop)

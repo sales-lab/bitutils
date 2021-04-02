@@ -35,21 +35,21 @@ def iter_alignments_simple(fd):
 	reader = Reader(fd, '0s,1u,2u,3s,4s,5u,6u,7u,11s,12s', False)
 	for qlabel, qstart, qstop, strand, tlabel, tstart, tstop, length, qgaps, tgaps in reader:
 		if qstop <= qstart:
-			raise ValueError, 'invalid query stop coordinate at line %d: %d' % (reader.lineno(), qstop)
+			raise ValueError('invalid query stop coordinate at line %d: %d' % (reader.lineno(), qstop))
 		elif strand not in ('+', '-'):
-			raise ValueError, 'invalid strand at line %d: %s' % (reader.lineno(), strand)
+			raise ValueError('invalid strand at line %d: %s' % (reader.lineno(), strand))
 		elif tstop <= tstart:
-			raise ValueError, 'invalid target stop coordinate at line %d: %d' % (reader.lineno(), tstop)
+			raise ValueError('invalid target stop coordinate at line %d: %d' % (reader.lineno(), tstop))
 		
 		try:
 			qgaps = _parse_gaps(qgaps)
 		except ValueError:
-			raise ValueError, 'invalid query gaps at line %d: %s' % (reader.lineno(), qgaps)
+			raise ValueError('invalid query gaps at line %d: %s' % (reader.lineno(), qgaps))
 		
 		try:
 			tgaps = _parse_gaps(tgaps)
 		except ValueError:
-			raise ValueError, 'invalid target gaps at line %d: %s' % (reader.lineno(), tgaps)
+			raise ValueError('invalid target gaps at line %d: %s' % (reader.lineno(), tgaps))
 		
 		yield Alignment(qlabel, qstart, qstop, \
 		                tlabel, tstart, tstop, \

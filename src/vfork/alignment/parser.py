@@ -49,7 +49,7 @@ class LalignParser(object):
 				if alignment is not None:
 					yield alignment
 				elif not is_header:
-					raise ParseError, 'unexpected content at line %d' % rw.lineno
+					raise ParseError('unexpected content at line %d' % rw.lineno)
 
 		except EOFError:
 			pass
@@ -67,7 +67,7 @@ class LalignParser(object):
 			line = rw.readline('was expecting an header')
 			tokens = line.split()
 			if tokens[0] != beginning:
-				raise ParseError, 'unexpected header at line %d' % rw.lineno
+				raise ParseError('unexpected header at line %d' % rw.lineno)
 			else:
 				if tokens[2] == '(rev-comp)':
 					setattr(self, attr, tokens[3])
@@ -76,7 +76,7 @@ class LalignParser(object):
 					try:
 						self.query_len = int(tokens[-2])
 					except ValueError:
-						raise ParseError, 'invalid query length at line %d' % rw.lineno
+						raise ParseError('invalid query length at line %d' % rw.lineno)
 				
 				else:
 					setattr(self, attr, tokens[2])
@@ -85,7 +85,7 @@ class LalignParser(object):
 	
 		line = rw.readline('was expecting an header')
 		if not line.startswith(' using matrix file:'):
-			raise ParseError, 'unexpected header at line %d' % rw.lineno
+			raise ParseError('unexpected header at line %d' % rw.lineno)
 
 	def _parse_alignment(self, rw):
 		''' Parses the description of an alignment.
@@ -140,12 +140,12 @@ class LalignParser(object):
 			
 			idx = details[0].find(' ')
 			if idx == -1:
-				raise ParseError, 'unexpected alignment details at line %d' % rw.lineno
+				raise ParseError('unexpected alignment details at line %d' % rw.lineno)
 			query_gap_scanner.feed(details[0][idx+1:].strip())
 			
 			idx = details[2].find(' ')
 			if idx == -1:
-				raise ParseError, 'unexpected alignment details at line %d' % rw.lineno
+				raise ParseError('unexpected alignment details at line %d' % rw.lineno)
 			target_gap_scanner.feed(details[2][idx+1:].strip())
 		
 		alignment.query_gaps = query_gap_scanner.finalize()
@@ -242,7 +242,7 @@ class WuBlastParser(object):
 		
 		m = self.header2_rx.match(line)
 		if m is None:
-			raise ParseError, 'was expecting second line of alignment header at line %d' % rw.lineno
+			raise ParseError('was expecting second line of alignment header at line %d' % rw.lineno)
 		
 		alignment.identity = int(m.group(1))
 		
@@ -254,7 +254,7 @@ class WuBlastParser(object):
 			elif strand == 'Minus':
 				alignment.strand = '-'
 			else:
-				raise ParseError, 'unexpected strand name at line %d' % rw.lineno
+				raise ParseError('unexpected strand name at line %d' % rw.lineno)
 			
 			assert alignment.strand == self.strand, 'unexpected strand %s at line %d (according to the preceding header strand is %s)' % (alignment.strand, rw.lineno, self.strand)
 		else:
@@ -308,7 +308,7 @@ class WuBlastParser(object):
 			line = rw.readline('was expecting target details')
 			m = self.subject_rx.match(line)
 			if m is None:
-				raise ParseError, 'was expecting target details at line %d' % rw.lineno
+				raise ParseError('was expecting target details at line %d' % rw.lineno)
 			
 			if target_start is None:
 				target_start = int(m.group(1)) - 1
@@ -317,7 +317,7 @@ class WuBlastParser(object):
 			target_stop = m.group(3)
 		
 		if query_start is None:
-			raise ParseError, 'was expecting alignment details at line %d' % rw.lineno
+			raise ParseError('was expecting alignment details at line %d' % rw.lineno)
 		
 		query_stop = int(query_stop)
 		if alignment.strand == '+':
@@ -378,7 +378,8 @@ class BlastzParser(object):
 				
 				elif line.startswith('a {'):
 					if self.query_label is None:
-						raise ParseError, 'found alignment details at line %d, but was expecting an header' % self.rw.lineno
+						raise ParseError(
+							'found alignment details at line %d, but was expecting an header' % self.rw.lineno)
 					else:
 						self._skip_alignment_header()
 						
@@ -408,7 +409,7 @@ class BlastzParser(object):
 			self.target_sequence_length = int(tokens[1])
 		
 		except ValueError:
-			raise ParseError, 'malformed target sequence informations at line %d' % self.rw.lineno
+			raise ParseError('malformed target sequence informations at line %d' % self.rw.lineno)
 	
 	def _parse_header(self):
 		self.query_label = self._read_label('query')
@@ -423,7 +424,7 @@ class BlastzParser(object):
 		self.target_label = target_label
 		
 		if not self.rw.readline('was expecting header end mark').startswith('}'):
-			raise ParseError, 'was expecting header end mark at line %d' % self.rw.lineno
+			raise ParseError('was expecting header end mark at line %d' % self.rw.lineno)
 	
 	def _read_label(self, name):
 		label = self.rw.readline('was expecting %s label' % name)
@@ -454,7 +455,7 @@ class BlastzParser(object):
 					target_stop = int(tokens[4])
 					score = int(tokens[5])
 				except ValueError:
-					raise ParseError, 'invalid HSP at line %d' % self.rw.lineno
+					raise ParseError('invalid HSP at line %d' % self.rw.lineno)
 				
 				# meaningless lines force the output of the alignment
 				if query_start == query_stop or target_start == target_stop:
@@ -503,7 +504,7 @@ class BlastzParser(object):
 					break
 			
 			else:
-				raise ParseError, 'unexpected field at line %d' % self.rw.lineno
+				raise ParseError('unexpected field at line %d' % self.rw.lineno)
 		
 		return None
 	
@@ -558,7 +559,7 @@ class RowWrapper(object):
 				if maybe_eof:
 					raise EOFError
 				else:
-					raise ParseError, '%s at line %d' % (error_msg, self.lineno)
+					raise ParseError('%s at line %d' % (error_msg, self.lineno))
 				
 			self.lineno += 1
 			if line != linesep:
