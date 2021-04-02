@@ -6,7 +6,6 @@
 ''' Reader for the FASTQ format. '''
 
 from itertools import chain
-from types import StringTypes
 
 
 class FormatError(Exception):
@@ -36,7 +35,7 @@ class FastqStreamingReader(object):
 
             @param src: the path of the file to read or a file descriptor.
         '''
-        if type(src) in StringTypes:
+        if type(src) is str:
             self.filename = src
             self.fd = file(src, 'r')
         else:

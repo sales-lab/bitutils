@@ -5,9 +5,6 @@
 
 ''' Writer for the FASTQ format. '''
 
-from types import StringTypes
-
-
 class FormatError(Exception):
     ''' Raised to signal an error in a FASTQ block. '''
 
@@ -20,7 +17,7 @@ class FastqWriter(object):
 
             @param src: the path of the file to writer or a file descriptor.
         '''
-        if type(src) in StringTypes:
+        if type(src) is str:
             self.filename = src
             self.fd = file(src, 'w')
             self.own_fd = True
