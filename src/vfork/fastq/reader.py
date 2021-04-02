@@ -54,12 +54,12 @@ class FastqStreamingReader(object):
         try:
             while 1:
                 inside_block = False
-                header  = fd.next(); lineno += 1
+                header  = next(fd); lineno += 1
                 inside_block = True
 
-                seq     = fd.next().rstrip('\r\n'); lineno += 1
-                header2 = fd.next(); lineno += 1
-                qual    = fd.next().rstrip('\r\n'); lineno += 1
+                seq     = next(fd).rstrip('\r\n'); lineno += 1
+                header2 = next(fd); lineno += 1
+                qual    = next(fd).rstrip('\r\n'); lineno += 1
 
                 if header[0] != '@':
                     raise FormatError('invalid FASTQ header in file %s at line %d: %s' % (self.filename, lineno-4, header))
@@ -81,7 +81,7 @@ class FastqStreamingReader(object):
             try:
                 while 1:
                     inside_block = False
-                    header = fd.next(); lineno += 1
+                    header = next(fd); lineno += 1
                     inside_block = True
 
                     if header[0] != '@':
@@ -89,9 +89,9 @@ class FastqStreamingReader(object):
                     elif len(header) < 2:
                         raise FormatError('empty FASTQ label in file %s at line %d' % (self.filename, lineno-1))
 
-                    seq = fd.next().rstrip('\r\n'); lineno += 1
+                    seq = next(fd).rstrip('\r\n'); lineno += 1
                     while True:
-                        another_line = fd.next(); lineno += 1
+                        another_line = next(fd); lineno += 1
                         if another_line[0] != '+':
                             seq += another_line.rstrip('\r\n')
                         else:
@@ -100,7 +100,7 @@ class FastqStreamingReader(object):
                     seq_len = len(seq)
                     qual = ''
                     while 1:
-                        qual += fd.next().rstrip('\r\n'); lineno += 1
+                        qual += next(fd).rstrip('\r\n'); lineno += 1
                         if len(qual) >= seq_len:
                             break
 
