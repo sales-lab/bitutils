@@ -52,7 +52,7 @@ class RandomAccessSequence(object):
 			line_pos -= 1
 		
 		if line_pos <= 0:
-			raise ValueError, 'first content line of FASTA file %s is empty' % self.filename
+			raise ValueError('first content line of FASTA file %s is empty' % self.filename)
 
 		return line_len, line_len - 1 - line_pos
 
@@ -125,11 +125,11 @@ class SingleBlockReader(RandomAccessSequence):
 		    @raises ValueError: if one of I{start}, I{size} is out of range.
 		'''
 		if start < 0 or start >= self.size:
-			raise ValueError, 'invalid start coordinate %d (content size %d)' % (start, self.size)
+			raise ValueError('invalid start coordinate %d (content size %d)' % (start, self.size))
 		
 		stop = start + size
 		if size < 0 or stop > self.size:
-			raise ValueError, 'invalid size %d (sequence start is %d; sequence size is %d)' % (size, start, self.size)
+			raise ValueError('invalid size %d (sequence start is %d; sequence size is %d)' % (size, start, self.size))
 		
 		return self._get(start, stop)
 	
@@ -146,7 +146,7 @@ class SingleBlockReader(RandomAccessSequence):
 		'''
 		header = self.fd.readline()
 		if len(header) == 0 or header[0] != '>':
-			raise FormatError, 'malformed FASTA header'
+			raise FormatError('malformed FASTA header')
 		else:
 			return header[1:].rstrip()
 	
@@ -212,7 +212,7 @@ class MultipleBlockReader(RandomAccessSequence):
 		
 		self.mf = None
 		if self.file_size == 0:
-			raise ValueError, 'file %s is empty' % self.filename
+			raise ValueError('file %s is empty' % self.filename)
 
 		try:
 			self.mf = mmap(self.fd.fileno(), self.file_size, access=ACCESS_READ)
@@ -246,7 +246,7 @@ class MultipleBlockReader(RandomAccessSequence):
 		self.block_map = {}
 
 		if self.mf[0] != '>':
-			raise ValueError, 'invalid first char of FASTA file'
+			raise ValueError('invalid first char of FASTA file')
 		
 		pos = 0
 		header = None
@@ -361,9 +361,9 @@ class MultipleBlockStreamingReader(object):
 	
 		line = safe_rstrip(line)
 		if len(line) == 0:
-			raise FormatError, self._error_msg('unexpected empty row', self.lineno)
+			raise FormatError(self._error_msg('unexpected empty row', self.lineno))
 		elif line[0] != '>':
-			raise FormatError, self._error_msg('missing FASTA header', self.lineno)
+			raise FormatError(self._error_msg('missing FASTA header', self.lineno))
 		else:
 			return line[1:]
 		
@@ -373,11 +373,11 @@ class MultipleBlockStreamingReader(object):
 			
 			line = safe_rstrip(line)
 			if len(line) == 0:
-				raise FormatError, self._error_msg('unexpected empty row', self.lineno)
+				raise FormatError(self._error_msg('unexpected empty row', self.lineno))
 			elif line[0] == '>':
 				self.header = line[1:]
 				if len(self.header) == 0:
-					raise FormatError, self._error_msg('empty FASTA header', self.lineno)
+					raise FormatError(self._error_msg('empty FASTA header', self.lineno))
 				return
 			else:
 				yield self.sequence_filter(line)
