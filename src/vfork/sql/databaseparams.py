@@ -27,7 +27,7 @@ def collect_database_params(options, conf_map=None):
 	
 	for key in ('host', 'user', 'db'):
 		if not params.has_key(key):
-			raise KeyError, "you must specify a value for '%s'." % key
+			raise KeyError("you must specify a value for '%s'." % key)
 
 	if not params.has_key('passwd'):
 		params['passwd'] = getpass('Enter database password: ')
