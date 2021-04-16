@@ -11,6 +11,7 @@ from vfork.fastq.reader import FastqStreamingReader, FormatError
 from vfork.util import ignore_broken_pipe
 from vfork.util import exit, format_usage
 
+
 def main():
     parser = OptionParser(usage=format_usage('''
         Usage: %prog [OPTIONS] <FASTQ >TAB
