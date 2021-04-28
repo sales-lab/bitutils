@@ -1,7 +1,3 @@
-#!/usr/bin/env python
-#
-# Copyright 2010 Gabriele Sales <gbrsales@gmail.com>
-
 from optparse import OptionParser
 from sys import stdin
 
