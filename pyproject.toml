@@ -19,8 +19,7 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.poetry.scripts]
 fastq2tab = 'vfork.fastq.fastq2tab:main'
-tab2fastq = 'vfork.tab2.tab2fastq:main'
 fasta2tab = 'vfork.fasta.fasta2tab:main'
-tab2fasta = 'vfork.tab2.tab2fasta:main'
+tab2fasta = 'vfork.tsv.tab2fasta:main'
 symbol_freq = 'vfork.tools.symbol_freq:main'
 symbol_count = 'vfork.tools.symbol_freq:main'
