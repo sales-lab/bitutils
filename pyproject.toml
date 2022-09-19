@@ -3,7 +3,7 @@ name = "bitutils"
 version = "0.1.0"
 description = "BioinfoTree core modules"
 authors = ["Gabriele Sales <gbrsales@gmail.com>"]
-license = "Proprietary"
+license = "AGPL-3"
 packages = [
   { include = "vfork", from = "src" }
 ]
